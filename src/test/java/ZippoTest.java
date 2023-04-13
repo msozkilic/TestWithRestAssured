@@ -123,18 +123,19 @@ public class ZippoTest {
         ;
     }
     @Test
-    public void combiningTest(){
+    public void pathParamTest(){
 
         given()
+                .pathParam("Country","us")
+                .pathParam("ZipKod","90210")
+                .log().uri() //todo url yi göster
 
                 .when()
-                .get("http://api.zippopotam.us/us/90210")
+                .get("http://api.zippopotam.us/{Country}/{ZipKod}")
 
                 .then()
                 .log().body()
-                .body("places",hasSize(1))
-                .body("places.state",hasItem("California"))
-                .body("places[0].'place name'",equalTo("Beverly Hills"))
+
                 .statusCode(200)
 
         ;
