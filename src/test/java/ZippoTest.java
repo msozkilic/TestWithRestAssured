@@ -140,6 +140,46 @@ public class ZippoTest {
 
         ;
     }
+    @Test
+    public void pathParamTest2(){
+        //todo 90210 dan 90250 ye kadar test sonuclarinda places size nin hepsinde 1 geldigini test ediniz
+
+        for (int i = 90210; i < 90213; i++) {
+            given()
+                    .pathParam("Country", "us")
+                    .pathParam("ZipKod", i)
+                    .log().uri() //todo url yi göster
+
+                    .when()
+                    .get("http://api.zippopotam.us/{Country}/{ZipKod}")
+
+                    .then()
+                    .log().body()
+                    .body("places",hasSize(1))
+                    .statusCode(200)
+
+            ;
+        }
+
+    }
+    @Test
+    public void queryParamTest(){
+        //  https://gorest.co.in/public/v2/users?page=1
+
+        given()
+                .param("page",1)
+                .log().uri() //todo url yi göster
+
+                .when()
+                .get("https://gorest.co.in/public/v2/users")
+
+                .then()
+                .log().body()
+
+                .statusCode(200)
+
+        ;
+    }
 
 
 
