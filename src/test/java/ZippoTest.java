@@ -77,6 +77,51 @@ public class ZippoTest {
 
         ;
     }
+    @Test
+    public void bodyJsonPathTest3(){
+
+        given()
+
+                .when()
+                .get("http://api.zippopotam.us/us/90210")
+
+                .then()
+                .log().body()
+                .body("places.state",equalTo("California"))
+                .statusCode(200)
+
+        ;
+    }
+    @Test
+    public void bodyJsonPathTest4(){
+
+        given()
+
+                .when()
+                .get("http://api.zippopotam.us/tr/01000")
+
+                .then()
+                .log().body()
+                .body("places.'place name'",hasItem("Çaputçu Köyü"))
+                .statusCode(200)
+
+        ;
+    }
+    @Test
+    public void bodyArrayHasSize(){
+
+        given()
+
+                .when()
+                .get("http://api.zippopotam.us/us/90210")
+
+                .then()
+                .log().body()
+                .body("places",hasSize(1)) //todo verilen path deki listin size kontrolu
+                .statusCode(200)
+
+        ;
+    }
 
 
 }
