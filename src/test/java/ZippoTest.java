@@ -1,4 +1,10 @@
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
+import io.restassured.specification.RequestSpecification;
+import io.restassured.specification.ResponseSpecification;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.*;
@@ -219,6 +225,43 @@ public class ZippoTest {
                     .statusCode(200)
             ;
         }
+    }
+
+    RequestSpecification requestSpecs;
+    ResponseSpecification responseSpecs;
+
+    @BeforeClass
+    void SetUp(){
+
+        baseURI="https://gorest.co.in/public/v1";//bunu yazinca testte sadece sonunu yaziyorsun
+        requestSpecs=new RequestSpecBuilder()
+                .log(LogDetail.URI)
+                .setAccept(ContentType.JSON)
+                .build();
+
+        responseSpecs=new ResponseSpecBuilder()
+                .expectStatusCode(200)
+                .expectContentType(ContentType.JSON)
+                .log(LogDetail.BODY)
+                .build();
+    }
+    @Test
+    public void requestResponseSpecificiation(){
+        //  https://gorest.co.in/public/v1/users?page=1
+
+        given()
+                .param("page",1)
+                .spec(requestSpecs)
+
+                .when()
+                .get("/users")
+
+                .then()
+                .log().body()
+                .body("meta.pagination.page",equalTo(1))
+                .spec(responseSpecs)
+
+        ;
     }
 
 
