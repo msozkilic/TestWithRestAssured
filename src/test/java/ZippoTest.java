@@ -232,6 +232,21 @@ public class ZippoTest {
     RequestSpecification requestSpecs;
     ResponseSpecification responseSpecs;
 
+    @BeforeClass
+    void SetUp(){
+
+        baseURI="https://gorest.co.in/public/v1";//bunu yazinca testte sadece sonunu yaziyorsun
+        requestSpecs=new RequestSpecBuilder()
+                .log(LogDetail.URI)
+                .setAccept(ContentType.JSON)
+                .build();
+
+        responseSpecs=new ResponseSpecBuilder()
+                .expectStatusCode(200)
+                .expectContentType(ContentType.JSON)
+                .log(LogDetail.BODY)
+                .build();
+    }
 
 
 }
