@@ -205,5 +205,33 @@ public class ZippoTest {
         ;
 
 
+    }
+    @Test
+    public void queryParamTest3() {
+        //  https://gorest.co.in/public/v1/users?page=1
+        //todo 1 den 10 a kadar page leri kontrol ediniz yani url de page 1 di,simdi 10 a kadar page i kontrol et.
+
+        for (int pageNo = 1; pageNo <= 10; pageNo++) {
+
+
+            given()
+                    .param("page", pageNo)
+                    .log().uri() //todo url yi göster
+
+                    .when()
+                    .get("https://gorest.co.in/public/v1/users")
+
+                    .then()
+                    .log().body()
+                    .body("meta.pagination.page", equalTo(pageNo))
+                    .statusCode(200)
+            ;
+        }
+    }
+
+    RequestSpecification requestSpecs;
+    ResponseSpecification responseSpecs;
+
+
 
 }
