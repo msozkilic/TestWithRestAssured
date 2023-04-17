@@ -66,6 +66,23 @@ public class ZippoTest {
 
         ;
     }
+    // todo body.places[0].'place name' -> body("body.places[0].'place name'"   seklinde yazilir hamcrest i
+
+    @Test
+    public void bodyJsonPathTest2(){
+
+        given()
+
+                .when()
+                .get("http://api.zippopotam.us/us/90210")
+
+                .then()
+                .log().body()
+                .body("places[0].state",equalTo("California"))
+                .statusCode(200)
+
+        ;
+    }
 
 
 }
