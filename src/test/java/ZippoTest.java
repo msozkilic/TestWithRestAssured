@@ -36,6 +36,20 @@ public class ZippoTest {
 
         ;
     }
+    @Test
+    public void contentTypeTest(){
 
+        given()//todo hazirlik islemleri token ,send , body , parametreler
+
+                .when()
+                .get("http://api.zippopotam.us/us/90210")
+
+                .then() // todo dogrulama yeri ,statüs
+                .log().body() //todo log.All bütün responsu sonucu listeyi verir
+                .statusCode(200)
+                .contentType(ContentType.JSON)
+
+        ;
+    }
 
 }
