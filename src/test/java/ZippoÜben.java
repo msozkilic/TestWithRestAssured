@@ -101,6 +101,24 @@ public class ZippoÜben {
 
                 ;
     }
+    @Test
+    public void pathParamTest(){
+        given()
+                .pathParam("Country","us")
+                .pathParam("ZipKod",90210)
+                .log().uri()
+
+
+                .when()
+                .get("http://api.zippopotam.us/{Country}/{ZipKod}")
+
+
+                .then()
+                .log().body()
+
+
+                ;
+    }
 
 
 
