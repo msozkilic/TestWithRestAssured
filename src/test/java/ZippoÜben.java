@@ -196,6 +196,24 @@ public class ZippoÜben {
 
                 ;
     }
+    @Test
+    public void extractingJsonPath(){
+       String placeName=
+
+        given()
+
+                .when()
+                .get("http://api.zippopotam.us/tr/01000")
+
+
+                .then()
+                .statusCode(200)
+                .extract().path("places[0].'place name'" )
+
+                ;
+       System.out.println("place name ="+placeName);
+
+    }
 
 
 
