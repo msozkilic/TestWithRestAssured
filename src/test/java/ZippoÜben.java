@@ -180,6 +180,22 @@ public class ZippoÜben {
                 .log(LogDetail.BODY)
                 .build();
     }
+    @Test
+    public void requestResponseSpecification(){
+        given()
+                .param("page",1)
+                .spec(requestSpecification)
+
+                .when()
+                .get("/users")
+
+                .then()
+                .log().body()
+                .body("meta.pagination.page",equalTo(1))
+                .spec(responseSpecification)
+
+                ;
+    }
 
 
 
