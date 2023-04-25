@@ -140,6 +140,23 @@ public class ZippoÜben {
         }
     }
 
+    @Test
+    public void queryParamTest(){
+        given()
+                .param("page",1)
+
+                .when()
+                .get("https://gorest.co.in/public/v2/users")
+
+                .then()
+                .log().body()
+                .body("meta.pagination.page",equalTo(1))
+                .statusCode(200)
+
+
+                ;
+    }
+
 
 
 }
