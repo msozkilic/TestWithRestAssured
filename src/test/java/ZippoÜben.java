@@ -2,8 +2,7 @@ import io.restassured.http.ContentType;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.*;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.*;
 
 public class ZippoÜben {
 
@@ -69,6 +68,20 @@ public class ZippoÜben {
                 .statusCode(200)
 
         ;
+    }
+    @Test
+    public void bodyArrayHasSize(){
+        given()
+
+                .when()
+                .get("http://api.zippopotam.us/us/90210")
+
+                .then()
+                .log().body()
+                .body("places",hasSize(1))
+                .statusCode(200)
+
+                ;
     }
 
 
