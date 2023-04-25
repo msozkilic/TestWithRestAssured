@@ -115,9 +115,29 @@ public class ZippoÜben {
 
                 .then()
                 .log().body()
+        ;
+    }
+    @Test
+    public void pathParam2() {
+
+        for (int i = 90210; i < 90213; i++) {
+
+            given()
+
+                    .when()
+                    .pathParam("Country", "us")
+                    .pathParam("ZipKod", i)
+
+                    .get("http://api.zippopotam.us/Country/Zipkod")
 
 
-                ;
+                    .then()
+                    .log().body()
+                    .body("places",hasSize(1))
+                    .statusCode(200)
+
+            ;
+        }
     }
 
 
