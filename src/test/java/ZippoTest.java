@@ -404,6 +404,7 @@ public class ZippoTest {
                 .get("https://httpstat.us/203")
 
                 .then()
+                .log().body()
                 .statusCode(203)
                 .contentType(ContentType.TEXT)
 
