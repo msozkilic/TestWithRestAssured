@@ -390,6 +390,28 @@ public class ZippoTest {
         System.out.println("yer.getPlace().get(0).getPlacename()= "+
         yer.getPlaces().get(0).getPlaceName());
     }
+    /** Task 1
+     * create a request to https://httpstat.us/203
+     * expect status 203
+     * expect content type TEXT
+     */
+
+    @Test
+    public  void task2(){
+        given()
+
+                .when()
+                .get("https://httpstat.us/203")
+
+                .then()
+                .statusCode(203)
+                .contentType(ContentType.TEXT)
+
+
+                ;
+    }
+
+
 
 
 
