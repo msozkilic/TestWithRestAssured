@@ -340,7 +340,29 @@ public class ZippoTest {
 
 
 
+    } @Test
+    public void extractingJsonStringList(){
+
+        List<String> isimler=
+                given()
+
+                        .when()
+                        .get("http://gorest.co.in/public/v1/users")
+
+
+                        .then()
+                        //.log().body()
+                        .statusCode(200)
+                        .extract().path("data.name")
+                ;
+        System.out.println("isimler  "+ isimler);
+        Assert.assertTrue(isimler.contains("Data Achari"));
+
+
+
     }
+
+
 
 
 
