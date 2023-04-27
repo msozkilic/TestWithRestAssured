@@ -297,6 +297,27 @@ public class ZippoTest {
 
 
     }
+    @Test
+    public void extractingJsonPath2(){
+
+        int id=
+                given()
+
+                        .when()
+                        .get("http://gorest.co.in/public/v1/users")
+
+
+                        .then()
+                        //.log().body()
+                        .statusCode(200)
+                        .extract().path("data[2].id")
+                ;
+        System.out.println("id  "+ id);
+
+
+
+    }
+
 
 
 }
