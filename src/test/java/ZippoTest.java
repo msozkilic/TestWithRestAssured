@@ -2,6 +2,7 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import org.testng.Assert;
@@ -300,7 +301,7 @@ public class ZippoTest {
 
 
     }
-    @Test
+    @Test // todo dizideki idyi aldik
     public void extractingJsonPath2(){
 
         int id=
@@ -320,7 +321,7 @@ public class ZippoTest {
 
 
     }
-    @Test
+    @Test // todo dizideki bütün idleri aldik
     public void extractingJsonIntList(){
 
         List<Integer> idler=
@@ -340,11 +341,13 @@ public class ZippoTest {
 
 
 
-    } @Test
-    public void extractingJsonStringList(){
+    }
 
-        List<String> isimler=
-                given()
+    @Test        // todo dizideki bütün nameleri aldik
+    public void extractingJsonResponseAll(){
+
+        Response response=
+        given()
 
                         .when()
                         .get("http://gorest.co.in/public/v1/users")
@@ -353,10 +356,16 @@ public class ZippoTest {
                         .then()
                         //.log().body()
                         .statusCode(200)
-                        .extract().path("data.name")
+                        .extract().response()
                 ;
-        System.out.println("isimler  "+ isimler);
-        Assert.assertTrue(isimler.contains("Data Achari"));
+        List<String> isimler=response.path("data.name");
+        List<Integer> idler=response.path("data.id");
+        int limit=response.path("meta.pagination.limit");
+
+        System.out.println("limit "+ limit);
+        System.out.println("idler "+ idler);
+        System.out.println("isimler "+isimler);
+
 
 
 
