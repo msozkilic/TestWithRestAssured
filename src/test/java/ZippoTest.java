@@ -8,6 +8,9 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
@@ -317,6 +320,28 @@ public class ZippoTest {
 
 
     }
+    @Test
+    public void extractingJsonIntList(){
+
+        List<Integer> idler=
+                given()
+
+                        .when()
+                        .get("http://gorest.co.in/public/v1/users")
+
+
+                        .then()
+                        //.log().body()
+                        .statusCode(200)
+                        .extract().path("data.id")
+                ;
+        System.out.println("id  "+ idler);
+        Assert.assertTrue(idler.contains(3045));
+
+
+
+    }
+
 
 
 
