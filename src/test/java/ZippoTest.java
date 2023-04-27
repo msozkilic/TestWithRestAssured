@@ -1,3 +1,4 @@
+import POJO.Location;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.LogDetail;
@@ -369,6 +370,25 @@ public class ZippoTest {
 
 
 
+    }
+    @Test
+    public void extractingJsonPojo() {
+
+        Location yer=
+
+        given()
+
+                .when()
+                .get("http://api.zippopotam.us/us/90210")
+
+                .then()
+                .extract().as(Location.class)
+
+        ;
+        System.out.println("yer "+ yer);
+        System.out.println("yer.getCountry() ="+yer.getCountry());
+        System.out.println("yer.getPlace().get(0).getPlacename()= "+
+        yer.getPlaces().get(0).getPlaceName());
     }
 
 
