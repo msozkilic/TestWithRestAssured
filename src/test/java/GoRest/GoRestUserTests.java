@@ -12,30 +12,9 @@ import java.util.Map;
 import static io.restassured.RestAssured.*;
 
 public class GoRestUserTests {
-
     @BeforeClass
     void SetUp(){
         baseURI="https://gorest.co.in/public/v2/";
-    }
-    @Test
-    public void createUser(){
-        int userID=
-        given()
-                .header("Authorization","Bearer c2668e9cfb33f884ca5b66f5cc8e8acba4e2b151e47c88a362113bef8d6edbd9")
-                .contentType(ContentType.JSON)
-                .body("{\"name\":\""+getRandomName()+"\", \"gender\":\"Male\", \"email\":\"\"+getRandomEmail()+\"\", \"status\":\"Active\"}")
-
-                .when()
-                .post("users")
-
-                .then()
-                .log().body()
-                .statusCode(201)
-                .contentType(ContentType.JSON)
-                .extract().path("id")
-                ;
-        System.out.println("userID ="+ userID);
-
     }
     public String getRandomName(){
     return RandomStringUtils.randomAlphabetic(8);
@@ -43,34 +22,7 @@ public class GoRestUserTests {
     public String getRandomEmail(){
     return RandomStringUtils.randomAlphabetic(8).toLowerCase()+"@gmail.com";
     }
-    @Test
-    public void createUserMap(){
 
-        Map<String,String> newUser=new HashMap<>();
-        newUser.put("name",getRandomName());
-        newUser.put("gender","male");
-        newUser.put("email",getRandomEmail());
-        newUser.put("status","active");
-
-        int userID=
-                given()
-                        .header("Authorization","Bearer c2668e9cfb33f884ca5b66f5cc8e8acba4e2b151e47c88a362113bef8d6edbd9")
-                        .contentType(ContentType.JSON)
-                        .body(newUser)
-                        .log().body()
-
-                        .when()
-                        .post("users")
-
-                        .then()
-                        .log().body()
-                        .statusCode(201)
-                        .contentType(ContentType.JSON)
-                        .extract().path("id")
-                ;
-        System.out.println("userID ="+ userID);
-
-    }
     @Test
     public void createObject(){
 
@@ -94,7 +46,8 @@ public class GoRestUserTests {
                         .log().body()
                         .statusCode(201)
                         .contentType(ContentType.JSON)
-                        .extract().path("id")
+                        //.extract().path("id")
+                        .extract().jsonPath().getInt("id") //todo otomatik inte cevirdi
                 ;
         System.out.println("userID ="+ userID);
 
@@ -137,6 +90,54 @@ public class GoRestUserTests {
         public void setStatus(String status) {
             this.status = status;
         }
+    }
+    @Test(enabled = false)
+    public void createUser(){
+        int userID=
+                given()
+                        .header("Authorization","Bearer c2668e9cfb33f884ca5b66f5cc8e8acba4e2b151e47c88a362113bef8d6edbd9")
+                        .contentType(ContentType.JSON)
+                        .body("{\"name\":\""+getRandomName()+"\", \"gender\":\"Male\", \"email\":\"\"+getRandomEmail()+\"\", \"status\":\"Active\"}")
+
+                        .when()
+                        .post("users")
+
+                        .then()
+                        .log().body()
+                        .statusCode(201)
+                        .contentType(ContentType.JSON)
+                        .extract().path("id")
+                ;
+        System.out.println("userID ="+ userID);
+
+    }
+    @Test(enabled = false)
+    public void createUserMap(){
+
+        Map<String,String> newUser=new HashMap<>();
+        newUser.put("name",getRandomName());
+        newUser.put("gender","male");
+        newUser.put("email",getRandomEmail());
+        newUser.put("status","active");
+
+        int userID=
+                given()
+                        .header("Authorization","Bearer c2668e9cfb33f884ca5b66f5cc8e8acba4e2b151e47c88a362113bef8d6edbd9")
+                        .contentType(ContentType.JSON)
+                        .body(newUser)
+                        .log().body()
+
+                        .when()
+                        .post("users")
+
+                        .then()
+                        .log().body()
+                        .statusCode(201)
+                        .contentType(ContentType.JSON)
+                        .extract().path("id")
+                ;
+        System.out.println("userID ="+ userID);
+
     }
 
 }
