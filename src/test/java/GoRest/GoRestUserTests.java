@@ -26,11 +26,12 @@ public class GoRestUserTests { //todo gorest sayfasinin API testini yapiyoruz
 
     int userID=0;           //todo userID yi her classta kullanavagimiz icin bunu classin disinda tanimladik.Global oldu.
                             //todo bu userID url nin sonundaki kisim demek
+    User newUser;
 
     @Test
     public void createUserObject(){ // todo 1-postmandeki create yani post kismini yaptik.Yani bir isim,mail,cinsiyet ve status tanimladik.
 
-        User newUser=new User();
+        new User();
         newUser.setName(getRandomName());
         newUser.setEmail(getRandomEmail());
         newUser.setGender("male");
@@ -59,13 +60,15 @@ public class GoRestUserTests { //todo gorest sayfasinin API testini yapiyoruz
     @Test(dependsOnMethods ="createUserObject" ) //todo 2-postmandeki Update yani put kismini yaptik
     public void updateUserObject(){
 
-        Map<String,String>updateUser=new HashMap<>();
-        updateUser.put("name","serkan kilic");
+        //Map<String,String>updateUser=new HashMap<>(); //todo önce Map ile yapmistik.sonra user classtan alarak altta yaptik
+        //updateUser.put("name","serkan kilic");        //
+
+        newUser.setName("serkan kilic");
 
         given()
                         .header("Authorization","Bearer c2668e9cfb33f884ca5b66f5cc8e8acba4e2b151e47c88a362113bef8d6edbd9")
                         .contentType(ContentType.JSON)
-                        .body(updateUser)
+                        .body(newUser)         //todo bodynin icine map ile yapmissak updateUser,class ile yapmissak newUser yaziyoruz
                         .log().body()
                         .pathParam("userID",userID)
 
