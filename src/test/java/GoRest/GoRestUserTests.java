@@ -57,7 +57,7 @@ public class GoRestUserTests { //todo gorest sayfasinin API testini yapiyoruz
         System.out.println("userID ="+ userID);
 
     }
-    @Test(dependsOnMethods ="createUserObject" ) //todo 2-postmandeki Update yani put kismini yaptik
+    @Test(dependsOnMethods ="createUserObject",priority = 1) //todo 2-postmandeki Update yani put kismini yaptik
     public void updateUserObject(){
 
         //Map<String,String>updateUser=new HashMap<>(); //todo önce Map ile yapmistik.sonra user classtan alarak altta yaptik
@@ -81,6 +81,27 @@ public class GoRestUserTests { //todo gorest sayfasinin API testini yapiyoruz
                         .body("name",equalTo("serkan kilic"))
 
                 ;
+
+
+    }
+    @Test(dependsOnMethods ="createUserObject" ,priority = 2) //todo 3-postmandeki idyi al kontrol et yani get kismini yaptik
+    public void getUserByID(){
+
+        given()
+                .header("Authorization","Bearer c2668e9cfb33f884ca5b66f5cc8e8acba4e2b151e47c88a362113bef8d6edbd9")
+                .contentType(ContentType.JSON)
+                .log().body()
+                .pathParam("userID",userID)
+
+                .when()
+                .get("users/{userID}")
+
+                .then()
+                .log().body()
+                .statusCode(200)
+                .body("id",equalTo(userID))
+
+        ;
 
 
     }
