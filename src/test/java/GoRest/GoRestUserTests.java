@@ -105,7 +105,7 @@ public class GoRestUserTests { //todo gorest sayfasinin API testini yapiyoruz
 
 
     }
-    @Test(dependsOnMethods ="createUserObject" ,priority = 3) //todo 4-postmandeki idyi al ve sil dedik
+    @Test(dependsOnMethods ="createUserObject" ,priority = 3)   //todo 4-postmandeki idyi al ve sil dedik
     public void deleteUserByID(){
 
         given()
@@ -124,6 +124,23 @@ public class GoRestUserTests { //todo gorest sayfasinin API testini yapiyoruz
         ;
 
 
+    }
+    @Test(dependsOnMethods ="createUserObject" ,priority = 4)   //todo 4-Silinen usersi sil dedik tekrar.404 hatasi verirse dogrudur.
+    public void deleteUserByIdnegatif(){
+
+        given()
+                .header("Authorization","Bearer c2668e9cfb33f884ca5b66f5cc8e8acba4e2b151e47c88a362113bef8d6edbd9")
+                .contentType(ContentType.JSON)
+                .log().body()
+                .pathParam("userID",userID)
+
+                .when()
+                .delete("users/{userID}")
+
+                .then()
+                .log().body()
+                .statusCode(404)
+        ;
     }
     class User{        //todo
         private String name;
