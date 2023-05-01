@@ -12,22 +12,23 @@ import java.util.Map;
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.equalTo;
 
-public class GoRestUserTests {
-    @BeforeClass
+public class GoRestUserTests { //todo gorest sayfasinin API testini yapiyoruz
+    @BeforeClass        //todo sayfaya her classta baglanacagimiz icin bunu before class yaptik.
     void SetUp(){
         baseURI="https://gorest.co.in/public/v2/";
     }
-    public String getRandomName(){
+    public String getRandomName(){  //todo sürekli bir isim alacagimiz icin bunu metoda cevirdik.
     return RandomStringUtils.randomAlphabetic(8);
     }
     public String getRandomEmail(){
     return RandomStringUtils.randomAlphabetic(8).toLowerCase()+"@gmail.com";
     }
 
-    int userID=0;
+    int userID=0;           //todo userID yi her classta kullanavagimiz icin bunu classin disinda tanimladik.Global oldu.
+                            //todo bu userID url nin sonundaki kisim demek
 
     @Test
-    public void createUserObject(){
+    public void createUserObject(){ // todo 1-postmandeki create yani post kismini yaptik.Yani bir isim,mail,cinsiyet ve status tanimladik.
 
         User newUser=new User();
         newUser.setName(getRandomName());
@@ -55,17 +56,16 @@ public class GoRestUserTests {
         System.out.println("userID ="+ userID);
 
     }
-    @Test
+    @Test(dependsOnMethods ="createUserObject" ) //todo 2-postmandeki Update yani put kismini yaptik
     public void updateUserObject(){
 
-        User newUser=new User();
-        newUser.setName("serkan");
+        Map<String,String>updateUser=new HashMap<>();
+        updateUser.put("name","serkan kilic");
 
-
-                given()
+        given()
                         .header("Authorization","Bearer c2668e9cfb33f884ca5b66f5cc8e8acba4e2b151e47c88a362113bef8d6edbd9")
                         .contentType(ContentType.JSON)
-                        .body(newUser)
+                        .body(updateUser)
                         .log().body()
                         .pathParam("userID",userID)
 
@@ -81,7 +81,7 @@ public class GoRestUserTests {
 
 
     }
-    class User{
+    class User{        //todo
         private String name;
         private String gender;
 
@@ -120,7 +120,7 @@ public class GoRestUserTests {
             this.status = status;
         }
     }
-    @Test(enabled = false)
+    @Test(enabled = false)  //todo bu ve alttaki classlari hoca giris olarak ögretmek icin yazdi.
     public void createUser(){
         int userID=
                 given()
