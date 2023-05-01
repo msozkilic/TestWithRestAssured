@@ -10,6 +10,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.equalTo;
 
 public class GoRestUserTests {
     @BeforeClass
@@ -23,8 +24,10 @@ public class GoRestUserTests {
     return RandomStringUtils.randomAlphabetic(8).toLowerCase()+"@gmail.com";
     }
 
+    int userID=0;
+
     @Test
-    public void createObject(){
+    public void createUserObject(){
 
         User newUser=new User();
         newUser.setName(getRandomName());
@@ -32,7 +35,7 @@ public class GoRestUserTests {
         newUser.setGender("male");
         newUser.setStatus("active");
 
-        int userID=
+         userID=
                 given()
                         .header("Authorization","Bearer c2668e9cfb33f884ca5b66f5cc8e8acba4e2b151e47c88a362113bef8d6edbd9")
                         .contentType(ContentType.JSON)
@@ -50,6 +53,32 @@ public class GoRestUserTests {
                         .extract().jsonPath().getInt("id") //todo otomatik inte cevirdi
                 ;
         System.out.println("userID ="+ userID);
+
+    }
+    @Test
+    public void updateUserObject(){
+
+        User newUser=new User();
+        newUser.setName("serkan");
+
+
+                given()
+                        .header("Authorization","Bearer c2668e9cfb33f884ca5b66f5cc8e8acba4e2b151e47c88a362113bef8d6edbd9")
+                        .contentType(ContentType.JSON)
+                        .body(newUser)
+                        .log().body()
+                        .pathParam("userID",userID)
+
+                        .when()
+                        .put("users/{userID}")
+
+                        .then()
+                        .log().body()
+                        .statusCode(200)
+                        .body("name",equalTo("serkan kilic"))
+
+                ;
+
 
     }
     class User{
