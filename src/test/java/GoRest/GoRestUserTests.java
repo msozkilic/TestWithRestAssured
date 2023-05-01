@@ -28,8 +28,8 @@ public class GoRestUserTests { //todo gorest sayfasinin API testini yapiyoruz
                             //todo bu userID url nin sonundaki kisim demek
     User newUser;
 
-    @Test
-    public void createUserObject(){ // todo 1-postmandeki create yani post kismini yaptik.Yani bir isim,mail,cinsiyet ve status tanimladik.
+    @Test   // todo 1-postmandeki create yani post kismini yaptik.Yani bir isim,mail,cinsiyet ve status tanimladik.
+    public void createUserObject(){
 
         new User();
         newUser.setName(getRandomName());
@@ -100,6 +100,26 @@ public class GoRestUserTests { //todo gorest sayfasinin API testini yapiyoruz
                 .log().body()
                 .statusCode(200)
                 .body("id",equalTo(userID))
+
+        ;
+
+
+    }
+    @Test(dependsOnMethods ="createUserObject" ,priority = 3) //todo 4-postmandeki idyi al ve sil dedik
+    public void deleteUserByID(){
+
+        given()
+                .header("Authorization","Bearer c2668e9cfb33f884ca5b66f5cc8e8acba4e2b151e47c88a362113bef8d6edbd9")
+                .contentType(ContentType.JSON)
+                .log().body()
+                .pathParam("userID",userID)
+
+                .when()
+                .delete("users/{userID}")
+
+                .then()
+                .log().body()
+                .statusCode(204)
 
         ;
 
