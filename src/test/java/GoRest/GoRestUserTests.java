@@ -5,6 +5,9 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static io.restassured.RestAssured.*;
 
 public class GoRestUserTests {
@@ -41,11 +44,19 @@ public class GoRestUserTests {
     }
     @Test
     public void createUserMap(){
+
+        Map<String,String> newUser=new HashMap<>();
+        newUser.put("name",getRandomName());
+        newUser.put("gender","male");
+        newUser.put("email",getRandomEmail());
+        newUser.put("status","active");
+
         int userID=
                 given()
                         .header("Authorization","Bearer c2668e9cfb33f884ca5b66f5cc8e8acba4e2b151e47c88a362113bef8d6edbd9")
                         .contentType(ContentType.JSON)
-                        .body("{\"name\":\""+getRandomName()+"\", \"gender\":\"Male\", \"email\":\"\"+getRandomEmail()+\"\", \"status\":\"Active\"}")
+                        .body(newUser)
+                        .log().body()
 
                         .when()
                         .post("users")
