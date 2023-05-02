@@ -6,11 +6,14 @@ import io.restassured.http.Cookies;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+import static org.hamcrest.Matchers.equalTo;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import static io.restassured.RestAssured.*;
+import static org.hamcrest.CoreMatchers.equalTo;
+
 public class CountryTest {
     Cookies cookies;
     @BeforeClass
@@ -67,10 +70,66 @@ public class CountryTest {
                 .post("school-service/api/countries")
 
                 .then()
+
                 .statusCode(201)
                 .extract().jsonPath().getString("id")
 
                 ;
+
+    }
+    @Test(dependsOnMethods = "createCountry")
+    public void createCountryNegatif(){
+
+
+        Country country=new Country();
+        country.setName(countryName);//todo generateCountryName
+        country.setCode(countryCode);//todo generateCountryCode
+
+
+                given()
+                        .cookies(cookies)
+                        .contentType(ContentType.JSON)
+                        .body(country)
+
+                        .when()
+                        .post("school-service/api/countries")
+
+                        .then()
+                        .log().body()
+                        .statusCode(400)
+                        .body("message", equalTo("The Country with Name \""+countryName+"\" already exists."))
+
+        ;
+        //todo getRandomName i almadigim icin global olan degiskenin son hali vardi
+        //todo burdada countryName deyince createCountryde olusan geldi dolayisiyla negatif oldu
+
+    }
+    @Test
+    public void createUpdateCountry(){
+        countryName=getRandomName();
+
+
+        Country country=new Country();
+        country.setId(countryID);
+        country.setName(countryName);//todo generateCountryName
+        country.setCode(countryCode);
+
+
+        countryID=
+                given()
+                        .cookies(cookies)
+                        .contentType(ContentType.JSON)
+                        .body(country)
+
+                        .when()
+                        .put("school-service/api/countries")
+
+                        .then()
+
+                        .statusCode(200)
+                        .body("name",equalTo(countryName))
+
+        ;
 
     }
     public String getRandomName(){  //todo sürekli bir isim alacagimiz icin bunu metoda cevirdik.
