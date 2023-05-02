@@ -1,6 +1,7 @@
 package GoRest;
 
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -13,13 +14,17 @@ import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.equalTo;
 
 public class GoRestUserTests { //todo gorest sayfasinin API testini yapiyoruz
+
     @BeforeClass        //todo sayfaya her classta baglanacagimiz icin bunu before class yaptik.
     void SetUp(){
+
         baseURI="https://gorest.co.in/public/v2/";
     }
+
     public String getRandomName(){  //todo sürekli bir isim alacagimiz icin bunu metoda cevirdik.
     return RandomStringUtils.randomAlphabetic(8);
     }
+
     public String getRandomEmail(){
     return RandomStringUtils.randomAlphabetic(8).toLowerCase()+"@gmail.com";
     }
@@ -91,7 +96,7 @@ public class GoRestUserTests { //todo gorest sayfasinin API testini yapiyoruz
                 .header("Authorization","Bearer c2668e9cfb33f884ca5b66f5cc8e8acba4e2b151e47c88a362113bef8d6edbd9")
                 .contentType(ContentType.JSON)
                 .log().body()
-                .pathParam("userID",userID)
+                .pathParam("userID",userID) //todo burayi alttaki get icinde String olarak kullanmak icin yapiyoruz.Yani bize gelen userID ,userID olarak kullanilsin dedik.+++
 
                 .when()
                 .get("users/{userID}")
@@ -99,7 +104,8 @@ public class GoRestUserTests { //todo gorest sayfasinin API testini yapiyoruz
                 .then()
                 .log().body()
                 .statusCode(200)
-                .body("id",equalTo(userID))
+                .body("id",equalTo(userID))  //todo postmanin bize verdigi id ile url nin sonuna gelen id ayni mi
+                                                //todo ikisi de ayni olmali ki dogru olsun
 
         ;
 
@@ -125,7 +131,7 @@ public class GoRestUserTests { //todo gorest sayfasinin API testini yapiyoruz
 
 
     }
-    @Test(dependsOnMethods ="createUserObject" ,priority = 4)   //todo 4-Silinen usersi sil dedik tekrar.404 hatasi verirse dogrudur.
+    @Test(dependsOnMethods ="deleteUserByID" ,priority = 4)   //todo 4-Silinen usersi sil dedik tekrar.404 hatasi verirse dogrudur.
     public void deleteUserByIdnegatif(){
 
         given()
@@ -141,6 +147,30 @@ public class GoRestUserTests { //todo gorest sayfasinin API testini yapiyoruz
                 .log().body()
                 .statusCode(404)
         ;
+    }
+    @Test //todo 4-postmandeki tüm listeyi alacagiz
+    public void getUsers(){
+
+        Response response=
+        given()
+                .header("Authorization","Bearer c2668e9cfb33f884ca5b66f5cc8e8acba4e2b151e47c88a362113bef8d6edbd9")
+
+                .when()
+                .get("users")
+
+                .then()
+                .log().body()
+                .statusCode(200)
+                .extract().response()
+
+                ;
+
+        //todo 3.usersin id sini aliniz(path ve jsonpath ile ayri ayri yapiniz
+        //todo tüm gelen veriyi bir nesneye atinih
+        //todo getuserbyid testinde dönen useri bir nesneye atiniz
+
+
+
     }
     class User{        //todo
         private String name;
