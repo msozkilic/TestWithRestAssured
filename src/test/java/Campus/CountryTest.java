@@ -35,6 +35,7 @@ public class CountryTest {
                 .post("auth/login") //todo url nin devami
 
                 .then()
+                .log().body()
               //  .log().all()  //todo
                // .log().cookies() //todo bu sekilde de yapilirsa cookies e direk ulasir ,görürüz
                 .statusCode(200)
@@ -45,12 +46,16 @@ public class CountryTest {
     }
 
     String countryID;
+    String countryName;
+    String countryCode;
     @Test
     public void createCountry(){
+        countryName=getRandomName();
+        countryCode=getRandomCode();
 
         Country country=new Country();
-        country.setName(getRandomName());//todo generateCountryName
-        country.setCode(getRandomCode());//todo generateCountryCode
+        country.setName(countryName);//todo generateCountryName
+        country.setCode(countryCode);//todo generateCountryCode
 
         countryID=
         given()
