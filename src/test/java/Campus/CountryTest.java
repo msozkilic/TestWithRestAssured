@@ -2,6 +2,7 @@ package Campus;
 
 import io.restassured.http.ContentType;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.Test;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,8 +36,9 @@ public class CountryTest {
                 .statusCode(200)
 
                 ;
-
-
+    }
+    @Test
+    public void createCountry(){
 
     }
 
