@@ -49,28 +49,33 @@ public class CountryTest {
     public void createCountry(){
 
         Country country=new Country();
-        country.setName();//todo generateCountryName
-        country.setCode();//todo generateCountryCode
+        country.setName(getRandomName());//todo generateCountryName
+        country.setCode(getRandomCode());//todo generateCountryCode
 
         countryID=
         given()
                 .cookies(cookies)
-                .log().all()
+                .contentType(ContentType.JSON)
+                .body(country)
 
                 .when()
-
+                .post("school-service/api/countries")
 
                 .then()
+                .statusCode(201)
+                .extract().jsonPath().getString("id")
 
                 ;
 
     }
     public String getRandomName(){  //todo sürekli bir isim alacagimiz icin bunu metoda cevirdik.
-        return RandomStringUtils.randomAlphabetic(8);
+
+        return RandomStringUtils.randomAlphabetic(8).toLowerCase();
     }
 
-    public String getRandomEmail(){
-        return RandomStringUtils.randomAlphabetic(8).toLowerCase()+"@gmail.com";
+    public String getRandomCode(){
+
+        return RandomStringUtils.randomAlphabetic(3).toLowerCase();
     }
 
 
