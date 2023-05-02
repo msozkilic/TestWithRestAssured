@@ -105,7 +105,7 @@ public class CountryTest {
 
     }
     @Test
-    public void createUpdateCountry(){
+    public void updateCountry(){
         countryName=getRandomName();
 
 
@@ -128,6 +128,24 @@ public class CountryTest {
 
                         .statusCode(200)
                         .body("name",equalTo(countryName))
+
+        ;
+
+    }
+    @Test(dependsOnMethods = "updateCountry")
+    public void deleteCountry(){
+
+        given()
+                        .cookies(cookies)
+                        .pathParam("countryID",countryID)
+
+                        .when()
+                        .delete("school-service/api/countries/{countryID}")
+
+                        .then()
+                        .log().body()
+                        .statusCode(200)
+
 
         ;
 
