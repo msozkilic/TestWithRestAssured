@@ -6,7 +6,7 @@ import io.restassured.http.Cookies;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -115,7 +115,7 @@ public class CountryTest {
         country.setCode(countryCode);
 
 
-        countryID=
+
                 given()
                         .cookies(cookies)
                         .contentType(ContentType.JSON)
@@ -132,8 +132,9 @@ public class CountryTest {
         ;
 
     }
+
     @Test(dependsOnMethods = "updateCountry")
-    public void deleteCountry(){
+    public void deleteCountryById(){
 
         given()
                         .cookies(cookies)
@@ -150,8 +151,8 @@ public class CountryTest {
         ;
 
     }
-    @Test(dependsOnMethods = "deleteCountry")
-    public void deleteCountryNegative(){
+    @Test(dependsOnMethods = "deleteCountryById")
+    public void deleteCountryByIdNegative(){
 
         given()
                 .cookies(cookies)
@@ -164,6 +165,32 @@ public class CountryTest {
                 .log().body()
                 .statusCode(400)
 
+
+        ;
+
+    }
+    @Test(dependsOnMethods = "deleteCountryById")
+    public void updateCountryNegative(){ //todo bunu delete den sonra calistiriyoruz ki olmayan bir seyi yenilemeye calissin
+
+        countryName=getRandomName();
+        Country country=new Country();
+        country.setId(countryID);
+        country.setName(countryName);//todo generateCountryName
+        country.setCode(countryCode);
+
+
+        given()
+                .cookies(cookies)
+                .contentType(ContentType.JSON)
+                .body(country)
+
+                .when()
+                .put("school-service/api/countries")
+
+                .then()
+                .log().body()
+                .statusCode(400)
+                .body("message",equalTo("Country not found"))
 
         ;
 
