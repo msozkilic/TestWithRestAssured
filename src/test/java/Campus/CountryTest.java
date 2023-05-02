@@ -1,7 +1,9 @@
 package Campus;
 
+import Campus.Model.Country;
 import io.restassured.http.ContentType;
 import io.restassured.http.Cookies;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -34,14 +36,23 @@ public class CountryTest {
 
                 .then()
               //  .log().all()  //todo
+               // .log().cookies() //todo bu sekilde de yapilirsa cookies e direk ulasir ,görürüz
                 .statusCode(200)
                 .extract().response().getDetailedCookies();//todo burada su var.sayfanin tooken i cookies altinda gidiyordu
                                                             //todo bununla gönderiyoruz.
 
                 ;
     }
+
+    String countryID;
     @Test
     public void createCountry(){
+
+        Country country=new Country();
+        country.setName();//todo generateCountryName
+        country.setCode();//todo generateCountryCode
+
+        countryID=
         given()
                 .cookies(cookies)
                 .log().all()
@@ -54,5 +65,13 @@ public class CountryTest {
                 ;
 
     }
+    public String getRandomName(){  //todo sürekli bir isim alacagimiz icin bunu metoda cevirdik.
+        return RandomStringUtils.randomAlphabetic(8);
+    }
+
+    public String getRandomEmail(){
+        return RandomStringUtils.randomAlphabetic(8).toLowerCase()+"@gmail.com";
+    }
+
 
 }
