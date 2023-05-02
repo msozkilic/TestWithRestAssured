@@ -150,6 +150,24 @@ public class CountryTest {
         ;
 
     }
+    @Test(dependsOnMethods = "deleteCountry")
+    public void deleteCountryNegative(){
+
+        given()
+                .cookies(cookies)
+                .pathParam("countryID",countryID)
+
+                .when()
+                .delete("school-service/api/countries/{countryID}")
+
+                .then()
+                .log().body()
+                .statusCode(400)
+
+
+        ;
+
+    }
     public String getRandomName(){  //todo sürekli bir isim alacagimiz icin bunu metoda cevirdik.
 
         return RandomStringUtils.randomAlphabetic(8).toLowerCase();
