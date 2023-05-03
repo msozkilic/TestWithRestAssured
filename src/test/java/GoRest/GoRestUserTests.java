@@ -6,9 +6,7 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.equalTo;
@@ -168,12 +166,20 @@ public class GoRestUserTests { //todo gorest sayfasinin API testini yapiyoruz
 
         int idUser3 = response.path("[2].id");
         int idUser3JsonPath = response.jsonPath().getInt("[2].id");
+        System.out.println("idUser3path "+ idUser3JsonPath);
+        System.out.println("idUser3JsonPath "+ idUser3JsonPath);
 
 
         //todo tüm gelen veriyi bir nesneye atinih
+        User[] userPath=response.as(User[].class);
+        System.out.println("Arrays.toString(usersPath) ="+ Arrays.toString(userPath));
+
+        List<User> usersJsonPath=response.jsonPath().getList("", User.class);
+        System.out.println("usersJsonPath " +usersJsonPath);
+
     }
 
-    //todo getuserbyid testinde dönen useri bir nesneye atiniz
+    //todo SORU getuserbyid testinde dönen useri bir nesneye atiniz.User classindan türetilen User nesnesine attik.
     @Test
     public void deleteUserByIDExtract(){
         User user=
@@ -189,14 +195,30 @@ public class GoRestUserTests { //todo gorest sayfasinin API testini yapiyoruz
                 .then()
                 .log().body()
                 .statusCode(200)
-                .extract().as(User.class) //todo burda
-
+               // .extract().as(User.class) //todo burda class olarak hepsini aldik,user nesnesinin icine attik.normalde extract.path("id") deyince sadece id yi aliyordu.
+                                            //todo extract.path([1].id) ile de dizi halinde 1 indexli id yi aldik
+                                            //todo classin hepsini almak icin ise extract.as ile tüm klasi aliyor,nesneye atiyoruz.ondan sonra direkt ulasabiliyoruz.user.id,user.name mesela
+                .extract().jsonPath().getObject("",User.class) //todo extract as in aynisidir.
         ;
 
 
     }
+    @Test
+    public void getUsersV1() {
 
+        Response response =
+                given()
+                        .header("Authorization", "Bearer c2668e9cfb33f884ca5b66f5cc8e8acba4e2b151e47c88a362113bef8d6edbd9")
 
+                        .when()
+                        .get("https://gorest.co.in/public/v1/users")
+
+                        .then()
+                        .log().body()
+                        .statusCode(200)
+                        .extract().response();
+
+        List<User> dataUsers=response.jsonPath().getList("data",User.class);//todo User adli classin icinden sadece data kismini aldik.
 
     }
     class User{        //todo
