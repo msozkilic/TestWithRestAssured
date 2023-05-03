@@ -166,8 +166,16 @@ public class GoRestUserTests { //todo gorest sayfasinin API testini yapiyoruz
                 ;
 
         //todo 3.usersin id sini aliniz(path ve jsonpath ile ayri ayri yapiniz
+        //todo sorulari cözerken webden hazir gösteren sayfadan yardim aldik.jsonpathfinder
+
+        int idUser3=response.path("[2].id");
+        int idUser3JsonPath=response.jsonPath().getInt("[2].id");
+
+
         //todo tüm gelen veriyi bir nesneye atinih
+
         //todo getuserbyid testinde dönen useri bir nesneye atiniz
+
 
 
 

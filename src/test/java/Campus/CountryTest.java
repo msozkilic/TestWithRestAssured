@@ -29,21 +29,18 @@ public class CountryTest {
         credential.put("password","TechnoStudy123");
         credential.put("rememberMe","true");  //todo burasi kullaniciyi hatirla kismidir
 
-        cookies=
-        given()
-                .contentType(ContentType.JSON)
-                .body(credential)
-
-                .when()
-                .post("auth/login") //todo url nin devami
-
-                .then()
-                .log().body()
-              //  .log().all()  //todo
-               // .log().cookies() //todo bu sekilde de yapilirsa cookies e direk ulasir ,görürüz
-                .statusCode(200)
-                .extract().response().getDetailedCookies();//todo burada su var.sayfanin tooken i cookies altinda gidiyordu
                                                             //todo bununla gönderiyoruz.
+        cookies=
+                given()
+                        .contentType(ContentType.JSON)
+                        .body(credential)
+
+                        .when()
+                        .post("auth/login")
+
+                        .then()
+                        .statusCode(200)
+                        .extract().response().getDetailedCookies()
 
                 ;
     }
@@ -114,9 +111,7 @@ public class CountryTest {
         country.setName(countryName);//todo generateCountryName
         country.setCode(countryCode);
 
-
-
-                given()
+                         given()
                         .cookies(cookies)
                         .contentType(ContentType.JSON)
                         .body(country)
@@ -146,10 +141,7 @@ public class CountryTest {
                         .then()
                         .log().body()
                         .statusCode(200)
-
-
         ;
-
     }
     @Test(dependsOnMethods = "deleteCountryById")
     public void deleteCountryByIdNegative(){
