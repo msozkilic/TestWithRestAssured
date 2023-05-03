@@ -149,38 +149,68 @@ public class GoRestUserTests { //todo gorest sayfasinin API testini yapiyoruz
         ;
     }
     @Test //todo 4-postmandeki tüm listeyi alacagiz
-    public void getUsers(){
+    public void getUsers() {
 
-        Response response=
-        given()
-                .header("Authorization","Bearer c2668e9cfb33f884ca5b66f5cc8e8acba4e2b151e47c88a362113bef8d6edbd9")
+        Response response =
+                given()
+                        .header("Authorization", "Bearer c2668e9cfb33f884ca5b66f5cc8e8acba4e2b151e47c88a362113bef8d6edbd9")
 
-                .when()
-                .get("users")
+                        .when()
+                        .get("users")
 
-                .then()
-                .log().body()
-                .statusCode(200)
-                .extract().response()
-
-                ;
+                        .then()
+                        .log().body()
+                        .statusCode(200)
+                        .extract().response();
 
         //todo 3.usersin id sini aliniz(path ve jsonpath ile ayri ayri yapiniz
         //todo sorulari cözerken webden hazir gösteren sayfadan yardim aldik.jsonpathfinder
 
-        int idUser3=response.path("[2].id");
-        int idUser3JsonPath=response.jsonPath().getInt("[2].id");
+        int idUser3 = response.path("[2].id");
+        int idUser3JsonPath = response.jsonPath().getInt("[2].id");
 
 
         //todo tüm gelen veriyi bir nesneye atinih
+    }
 
-        //todo getuserbyid testinde dönen useri bir nesneye atiniz
+    //todo getuserbyid testinde dönen useri bir nesneye atiniz
+    @Test
+    public void deleteUserByIDExtract(){
+        User user=
+        given()
+                .header("Authorization","Bearer c2668e9cfb33f884ca5b66f5cc8e8acba4e2b151e47c88a362113bef8d6edbd9")
+                .contentType(ContentType.JSON)
+                .log().body()
+                .pathParam("userID",3414)
 
+                .when()
+                .delete("users/{userID}")
+
+                .then()
+                .log().body()
+                .statusCode(200)
+                .extract().as(User.class) //todo burda
+
+        ;
+
+
+    }
 
 
 
     }
     class User{        //todo
+
+        private  int id;
+
+        public int getId() {
+            return id;
+        }
+
+        public void setId(int id) {
+            this.id = id;
+        }
+
         private String name;
         private String gender;
 
@@ -218,8 +248,19 @@ public class GoRestUserTests { //todo gorest sayfasinin API testini yapiyoruz
         public void setStatus(String status) {
             this.status = status;
         }
-    }
-    @Test(enabled = false)  //todo bu ve alttaki classlari hoca giris olarak ögretmek icin yazdi.
+
+        @Override
+        public String toString() {
+            return "User{" +
+                    "id=" + id +
+                    ", name='" + name + '\'' +
+                    ", gender='" + gender + '\'' +
+                    ", email='" + email + '\'' +
+                    ", status='" + status + '\'' +
+                    '}';
+        }
+
+        @Test(enabled = false)  //todo bu ve alttaki classlari hoca giris olarak ögretmek icin yazdi.
     public void createUser(){
         int userID=
                 given()
