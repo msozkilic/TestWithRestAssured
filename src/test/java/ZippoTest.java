@@ -359,7 +359,13 @@ public class ZippoTest {
                         .statusCode(200)
                         .extract().response()
                 ;
+        List<String> isimler=response.path("data.name");
+        List<Integer> idler=response.path("data.id");
+        int limit=response.path("meta.pagination.limit");
 
+        System.out.println("limit "+ limit);
+        System.out.println("idler "+ idler);
+        System.out.println("isimler "+isimler);
 
 
 
