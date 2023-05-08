@@ -74,7 +74,7 @@ public class GoRestUserTestsUbung {
                 .header("Authorization", "Bearer c2668e9cfb33f884ca5b66f5cc8e8acba4e2b151e47c88a362113bef8d6edbd9")
                 .body(userr)
                 .contentType(ContentType.JSON)
-                .param("UserId",userId)
+                .pathParam("UserId",userId)
 
                 .when()
                 .put("users/{UserId}")
@@ -85,6 +85,24 @@ public class GoRestUserTestsUbung {
                 .log().body()
                 .statusCode(200)
                 .body("userId",equalTo("Serkan Baskan"))
+
+                ;
+    }
+    @Test
+    public void getById(){
+
+        given()
+                .header("Authorization", "Bearer c2668e9cfb33f884ca5b66f5cc8e8acba4e2b151e47c88a362113bef8d6edbd9")
+                .pathParam("UserId",userId)
+
+                .when()
+                .get("users/{userId}")
+
+                .then()
+                .contentType(ContentType.JSON)
+                .statusCode(200)
+                .body("id",equalTo(userId))
+
 
                 ;
     }
