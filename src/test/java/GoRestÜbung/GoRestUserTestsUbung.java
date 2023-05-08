@@ -1,9 +1,11 @@
 package GoRestÜbung;
 
+import io.restassured.http.ContentType;
 import GoRest.User;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
 
 import static io.restassured.RestAssured.*;
 public class GoRestUserTestsUbung {
@@ -23,13 +25,29 @@ public class GoRestUserTestsUbung {
     }
 
     @Test
-    public void createUserObject(){
+    public void createUserObject() {
 
-        User user=new User();
-        user.setName(getRandomName());
-        user.setEmail(getRandomEmail());
-        user.setGender("male");
-        user.setStatus("active");
+        Userr userr = new Userr();
+        userr.setName(getRandomName());
+        userr.seteMail(getRandomEmail());
+        userr.setGender("male");
+        userr.setStatus("active");
+
+        given()
+                .header("Authorization", "Bearer c2668e9cfb33f884ca5b66f5cc8e8acba4e2b151e47c88a362113bef8d6edbd9")
+        .contentType(ContentType.JSON)
+                .body(userr)
+                .log().body()
+
+
+                .when()
+
+
+                .then()
+
+
+                ;
+
     }
 
 }
