@@ -88,7 +88,7 @@ public class GoRestUserTestsUbung {
 
                 ;
     }
-    @Test
+    @Test(dependsOnMethods = "updateUserr",priority = 2)
     public void getById(){
 
         given()
@@ -105,6 +105,25 @@ public class GoRestUserTestsUbung {
 
 
                 ;
+    }
+    @Test(dependsOnMethods = "")
+    public void deleteUser(){
+
+        given()
+                .header("Authorization", "Bearer c2668e9cfb33f884ca5b66f5cc8e8acba4e2b151e47c88a362113bef8d6edbd9")
+                .log().body()
+                .pathParam("UserId",userId)
+
+                .when()
+                .delete("users/{userId}")
+
+                .then()
+                .log().body()
+                .statusCode(204)
+
+
+
+        ;
     }
 
 }
