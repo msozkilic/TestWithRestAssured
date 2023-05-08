@@ -396,21 +396,6 @@ public class ZippoTest {
      * expect content type TEXT
      */
 
-    @Test
-    public  void task2(){
-        given()
-
-                .when()
-                .get("https://httpstat.us/203")
-
-                .then()
-                .log().body()
-                .statusCode(203)
-                .contentType(ContentType.TEXT)
-
-
-                ;
-    }
 
 
 

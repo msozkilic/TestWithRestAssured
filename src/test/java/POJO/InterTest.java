@@ -5,6 +5,7 @@ import org.testng.annotations.Test;
 import static io.restassured.RestAssured.*;
 
 public class InterTest {
+    //todo bu classi APi key ile nasil baglanilir onu göstermek icin yaptik
 
     @Test
     void testApiKey(){
