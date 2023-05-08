@@ -13,7 +13,7 @@ public class GoRestUserTestsUbung {
     @BeforeClass
     void SetUp(){
 
-        baseURI="https://gorest.co.in/public/v2/users";
+        baseURI="https://gorest.co.in/public/v2/";
     }
     public String getRandomName(){
 
@@ -33,6 +33,8 @@ public class GoRestUserTestsUbung {
         userr.setGender("male");
         userr.setStatus("active");
 
+        int userrId=
+
         given()
                 .header("Authorization", "Bearer c2668e9cfb33f884ca5b66f5cc8e8acba4e2b151e47c88a362113bef8d6edbd9")
         .contentType(ContentType.JSON)
@@ -41,12 +43,18 @@ public class GoRestUserTestsUbung {
 
 
                 .when()
+                .post("users")
 
 
                 .then()
+                .log().body()
+                .contentType(ContentType.JSON)
+                .statusCode(201)
+                .extract().path("id")
 
 
                 ;
+        System.out.println("userrId = "+userrId);
 
     }
 
