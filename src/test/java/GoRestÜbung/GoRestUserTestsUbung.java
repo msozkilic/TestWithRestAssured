@@ -18,4 +18,5 @@ public class GoRestUserTestsUbung {
     public String getRandomEmail(){
         return RandomStringUtils.randomAlphabetic(8).toLowerCase()+"@gmail.com";
     }
+
 }
