@@ -385,10 +385,7 @@ public class ZippoTest {
                 .extract().as(Location.class)
 
         ;
-        System.out.println("yer "+ yer);
-        System.out.println("yer.getCountry() ="+yer.getCountry());
-        System.out.println("yer.getPlace().get(0).getPlacename()= "+
-        yer.getPlaces().get(0).getPlaceName());
+
     }
     /** Task 1
      * create a request to https://httpstat.us/203
@@ -396,6 +393,21 @@ public class ZippoTest {
      * expect content type TEXT
      */
 
+    @Test
+    public  void task2(){
+        given()
+
+                .when()
+                .get("https://httpstat.us/203")
+
+                .then()
+                .log().body()
+                .statusCode(203)
+                .contentType(ContentType.TEXT)
+
+
+        ;
+    }
 
 
 
