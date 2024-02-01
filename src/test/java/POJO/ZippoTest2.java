@@ -4,6 +4,7 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
+import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 import org.testng.Assert;
@@ -307,6 +308,31 @@ public class ZippoTest2 {
 
         System.out.println("id ="+idler);
         Assert.assertTrue(idler.contains(3045));
+
+    }
+    @Test
+    public void exractingJsonResponseAll(){
+
+        Response response=
+                given()
+
+
+                        .when()
+                        .get("http://gorest.co.in/public/v1/users")
+
+
+                        .then()
+                        .log().body()
+                        .statusCode(200)
+                        .extract().response();
+
+      List<String> isimler=response.path("data.name");
+      List<Integer> idler=response.path("data.id");
+      int limit=response.path("meta.pagination.limit");
+
+        System.out.println("limit "+ limit);
+        System.out.println("idler "+idler);
+        System.out.println("isimler "+isimler);
 
     }
 
