@@ -141,6 +141,29 @@ public class ZippoTest2 {
 
         ;
     }
+    @Test
+    public void pathParamTest2() {
+        //todo 90210 dan 90250 ye kadar test sonuclarinda places size nin hepsinde 1 geldigini test ediniz
+
+        for (int i = 90210; i < 90250; i++) {
+
+            given()
+                    .pathParam("Country", "us")
+                    .pathParam("ZipKod", i)
+                    .log().uri()
+
+
+                    .when()
+                    .get("http://api.zippopotam.us/{Country}/{ZipKod}")
+
+                    .then()
+                    .log().body()
+                    .statusCode(200)
+
+            ;
+        }
+    }
+
 
 
 }
