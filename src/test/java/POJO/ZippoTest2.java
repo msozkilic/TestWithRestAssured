@@ -158,11 +158,30 @@ public class ZippoTest2 {
 
                     .then()
                     .log().body()
+                    .body("places", hasSize(1))
                     .statusCode(200)
 
             ;
         }
     }
+    @Test
+    public void queryParamTest(){
+        //  https://gorest.co.in/public/v2/users?page=1
+        given()
+                .param("page",1)
+                .log().uri()
+
+
+                .when()
+                .get("https://gorest.co.in/public/v2/users")
+
+                .then()
+                .log().body()
+                .statusCode(200)
+
+        ;
+    }
+
 
 
 
