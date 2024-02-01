@@ -247,6 +247,24 @@ public class ZippoTest2 {
 
     }
 
+    public void requestResponseSpecificition(){
+        //  https://gorest.co.in/public/v1/users?page=1
+
+        given()
+                .param("page",1)
+                .spec(requestSpecification)
+
+                .when()
+                .get("/users")
+
+                .then()
+                .log().body()
+                .body("meta.pagination.page",equalTo(1))
+                .spec(responseSpecification)
+
+                ;
+    }
+
 
 
 
