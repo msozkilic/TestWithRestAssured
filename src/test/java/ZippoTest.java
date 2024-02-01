@@ -207,7 +207,7 @@ public class ZippoTest {
 
         given()
                 .param("page", 1)
-                .log().uri() //todo url yi göster
+               .log().uri() //todo url yi göster
 
                 .when()
                 .get("https://gorest.co.in/public/v1/users")

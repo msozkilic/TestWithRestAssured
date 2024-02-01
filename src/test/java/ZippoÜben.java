@@ -13,8 +13,16 @@ import static org.hamcrest.Matchers.*;
 public class ZippoÜben {
 
     @Test
-    public void test(){
+    public void test() {
 
+
+                  given()//hazirlik islemleri,send,body,parametreler
+                 .when()//link ve metod verilecek
+                   .then()// assertion ve verileri ele alma ,extract
+                  ;}
+
+    @Test
+    public void statusCode(){
         given()
 
                 .when()
@@ -24,132 +32,161 @@ public class ZippoÜben {
                 .then()
                 .log().body()
                 .statusCode(200)
-
 
                 ;
     }
+
     @Test
-    public void contentType(){
+    public void contentTypeTest(){
+
 
         given()
 
-
                 .when()
-                .get("http://api.zippopotam.us/us/90210")
-
+                .get("")
 
                 .then()
                 .log().body()
                 .statusCode(200)
-                .contentType(ContentType.JSON)
-
-        ;
+                .contentType(ContentType.JSON);
     }
+
+
     @Test
     public void checkStateInResponseBody(){
+
         given()
 
                 .when()
-                .get("http://api.zippopotam.us/us/90210")
+                .get("")
 
+                .then()
+                .contentType(ContentType.JSON)
+                .body("country",equalTo("unitedStates"))
+                .statusCode(200);
+    }
+
+
+    @Test
+    public void bodyJsonPathTest2(){
+
+        given()
+
+                .when()
+                .get("")
 
                 .then()
                 .log().body()
-                .body("country",equalTo("United State"))
-                .statusCode(200)
-                .contentType(ContentType.JSON)
-        ;
+                .body("places[0].state",equalTo("California"))
+                .statusCode(200);
     }
+
     @Test
     public void bodyJsonPathTest(){
         given()
 
-                .when()
-                .get("http://api.zippopotam.us/tr/01000")
 
+                .when()
+                .get("")
 
                 .then()
-                .log().body()
-                .body("places.'place name'",hasItem("Camuzcu Köyü"))
+                .contentType(ContentType.JSON)
+                .body("places.state",equalTo("California"))
                 .statusCode(200)
-
         ;
     }
+
     @Test
-    public void bodyArrayHasSize(){
+    public void bodyJsonTest(){
         given()
 
                 .when()
-                .get("http://api.zippopotam.us/us/90210")
+                .get("")
 
                 .then()
                 .log().body()
-                .body("places",hasSize(1))
-                .statusCode(200)
-
-                ;
+                .body("places.'places name'",hasItem("CaputcuKöyü"))
+                .statusCode(200);
     }
+
     @Test
-    public void combiningTest()
-    {
+    public void bodyJsonPathTest4(){
+
         given()
 
-
                 .when()
-                .get("http://api.zippopotam.us/us/90210")
+                .get("")
 
                 .then()
                 .log().body()
-                .body("places",hasSize(1))
-                .body("places.state",hasItem("California"))
-                .body("places[0].'place name'",equalTo("Beverly Hills"))
-                .statusCode(200)
-
-                ;
+                .body("places.'place name'",hasSize(1))
+                .statusCode(200);
     }
+
     @Test
     public void pathParamTest(){
+
         given()
                 .pathParam("Country","us")
-                .pathParam("ZipKod",90210)
+                .pathParam("ZipCode","90210")
                 .log().uri()
 
-
                 .when()
-                .get("http://api.zippopotam.us/{Country}/{ZipKod}")
+                .get("http://api.zippopotam.us/{Country}/{ZipCode}")
 
 
                 .then()
                 .log().body()
-        ;
+                .statusCode(200)
+
+                ;
     }
+
     @Test
-    public void pathParam2() {
+    public void pathParamTest2() {
 
         for (int i = 90210; i < 90213; i++) {
 
+
             given()
+                    .pathParam("Country", "us")
+                    .pathParam("ZipCode", "i")
+                    .log().uri()
 
                     .when()
-                    .pathParam("Country", "us")
-                    .pathParam("ZipKod", i)
-
-                    .get("http://api.zippopotam.us/Country/Zipkod")
+                    .get("http://api.zippopotam.us/{Country}/{ZipCode}")
 
 
                     .then()
                     .log().body()
-                    .body("places",hasSize(1))
-                    .statusCode(200)
-
-            ;
+                    .body("places", hasSize(1))
+                    .statusCode(200);
         }
     }
 
     @Test
     public void queryParamTest(){
+
         given()
                 .param("page",1)
+                .log().uri()
+
+                .when()
+                .get("https://gorest.co.in/public/v2/users")
+
+                .then()
+                .log().body()
+
+                .statusCode(200)
+                ;
+    }
+
+    @Test
+    public  void queryParamTest2(){
+
+        given()
+                .param("page",1)
+                .log().uri()
 
                 .when()
                 .get("https://gorest.co.in/public/v2/users")
@@ -157,31 +194,51 @@ public class ZippoÜben {
                 .then()
                 .log().body()
                 .body("meta.pagination.page",equalTo(1))
-                .statusCode(200)
-
-
-                ;
+                .statusCode(200);
     }
+
+    @Test
+    public void queryParamTest3() {
+
+        for (int pageNo = 1; pageNo <= 10; pageNo++) {
+
+
+            given()
+                    .param("page",pageNo )
+                    .log().uri()
+
+                    .when()
+                    .get("https://gorest.co.in/public/v2/users")
+
+                    .then()
+                    .log().body()
+                    .body("meta.pagination.page",equalTo(pageNo))
+                    .statusCode(200);
+        }
+    }
+
     RequestSpecification requestSpecification;
     ResponseSpecification responseSpecification;
 
     @BeforeClass
-    void setUp(){
-        baseURI="https://gorest.co.in/public/v1";
+    public void SetUp(){
 
+        baseURI="https://gorest.co.in/public/v1";
         requestSpecification=new RequestSpecBuilder()
                 .log(LogDetail.URI)
                 .setAccept(ContentType.JSON)
                 .build();
 
-        responseSpecification =new ResponseSpecBuilder()
+        responseSpecification=new ResponseSpecBuilder()
                 .expectStatusCode(200)
                 .expectContentType(ContentType.JSON)
                 .log(LogDetail.BODY)
                 .build();
     }
+
     @Test
-    public void requestResponseSpecification(){
+    public void requestResponseSpecipication(){
+
         given()
                 .param("page",1)
                 .spec(requestSpecification)
@@ -192,28 +249,53 @@ public class ZippoÜben {
                 .then()
                 .log().body()
                 .body("meta.pagination.page",equalTo(1))
-                .spec(responseSpecification)
-
-                ;
-    }
-    @Test
-    public void extractingJsonPath(){
-       String placeName=
-
-        given()
-
-                .when()
-                .get("http://api.zippopotam.us/tr/01000")
-
-
-                .then()
-                .statusCode(200)
-                .extract().path("places[0].'place name'" )
-
-                ;
-       System.out.println("place name ="+placeName);
+                .spec(responseSpecification);
 
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -25,6 +25,7 @@ public class GoRestUserTests { //todo gorest sayfasinin API testini yapiyoruz
     }
 
     public String getRandomEmail() {
+
         return RandomStringUtils.randomAlphabetic(8).toLowerCase() + "@gmail.com";
     }
 
