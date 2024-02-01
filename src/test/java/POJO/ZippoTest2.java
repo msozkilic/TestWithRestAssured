@@ -263,6 +263,29 @@ public class ZippoTest2 {
                 .spec(responseSpecification)
 
                 ;
+
+    }
+    @Test
+    public void exractingJsonPath2(){
+
+        int id=
+                given()
+
+
+                        .when()
+                        .get("http://gorest.co.in/public/v1/users")
+
+
+                        .then()
+                        .log().body()
+                        .statusCode(200)
+                        .extract().path("data[2].id");
+
+        System.out.println("id ="+id);
+
+
+
+
     }
 
 
