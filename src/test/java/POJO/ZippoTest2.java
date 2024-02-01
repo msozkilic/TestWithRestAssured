@@ -80,5 +80,20 @@ public class ZippoTest2 {
        ;
     }
 
+    @Test
+    public void bodyJsonPathTest(){
+       given()
+
+               .when()
+               .get("http://api.zippopotam.us/us/90210")
+
+               .then()
+               .contentType(ContentType.JSON)
+               .body("places.state",equalTo("California"))
+               .statusCode(200)
+
+               ;
+    }
+
 
 }
