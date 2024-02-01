@@ -6,6 +6,7 @@ import org.testng.annotations.Test;
 import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasItem;
 
 public class ZippoTest2 {
 
@@ -93,6 +94,21 @@ public class ZippoTest2 {
                .statusCode(200)
 
                ;
+    }
+    @Test
+    public void bodyJsonPathTest4(){
+        given()
+
+
+                .when()
+                .get("http://api.zippopotam.us/tr/01000")
+
+                .then()
+                .log().body()
+                .body("places.'place name'",hasItem("Çaputçu Köyü"))
+                .statusCode(200)
+
+        ;
     }
 
 
