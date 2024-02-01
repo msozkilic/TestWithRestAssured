@@ -6,8 +6,12 @@ import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
+
+import java.awt.*;
+import java.util.List;
 
 import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
@@ -283,10 +287,30 @@ public class ZippoTest2 {
 
         System.out.println("id ="+id);
 
+    }
+
+    @Test
+    public void exractingJsonIntList(){
+
+       List<Integer> idler=
+                given()
 
 
+                        .when()
+                        .get("http://gorest.co.in/public/v1/users")
+
+
+                        .then()
+                        .log().body()
+                        .statusCode(200)
+                        .extract().path("data.id");
+
+        System.out.println("id ="+idler);
+        Assert.assertTrue(idler.contains(3045));
 
     }
+
+
 
 
 
