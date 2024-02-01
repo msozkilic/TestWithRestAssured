@@ -1,10 +1,15 @@
 package POJO;
 
+import io.restassured.builder.RequestSpecBuilder;
+import io.restassured.builder.ResponseSpecBuilder;
+import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
+import io.restassured.specification.RequestSpecification;
+import io.restassured.specification.ResponseSpecification;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import static io.restassured.RestAssured.get;
-import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.*;
 import static org.hamcrest.Matchers.*;
 
 public class ZippoTest2 {
@@ -222,6 +227,26 @@ public class ZippoTest2 {
         ;
     }
     }
+
+    RequestSpecification requestSpecification;
+    ResponseSpecification responseSpecification;
+    @BeforeClass
+    void SetUp(){
+        baseURI="https://gorest.co.in/public/v1";
+
+        requestSpecification=new RequestSpecBuilder()
+                .log(LogDetail.URI)
+                .setAccept(ContentType.JSON)
+                .build();
+
+        responseSpecification=new ResponseSpecBuilder()
+                .expectStatusCode(200)
+                .expectContentType(ContentType.JSON)
+                .log(LogDetail.BODY)
+                .build();
+
+    }
+
 
 
 
