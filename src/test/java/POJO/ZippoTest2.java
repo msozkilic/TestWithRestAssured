@@ -5,8 +5,7 @@ import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.get;
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.*;
 
 public class ZippoTest2 {
 
@@ -106,6 +105,38 @@ public class ZippoTest2 {
                 .then()
                 .log().body()
                 .body("places.'place name'",hasItem("Çaputçu Köyü"))
+                .statusCode(200)
+
+        ;
+    }
+    @Test
+    public void bodyArrayHasSize(){
+        given()
+
+
+                .when()
+                .get("http://api.zippopotam.us/us/90210")
+
+                .then()
+                .log().body()
+                .body("places",hasSize(1))
+                .statusCode(200)
+
+        ;
+    }
+    @Test
+    public void pathParamTest(){
+        given()
+                .pathParam("Country","us")
+                .pathParam("ZipKod","90210")
+                .log().uri()
+
+
+                .when()
+                .get("http://api.zippopotam.us/{Country}/{ZipKod}")
+
+                .then()
+                .log().body()
                 .statusCode(200)
 
         ;
