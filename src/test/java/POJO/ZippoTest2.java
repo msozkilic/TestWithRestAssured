@@ -181,6 +181,25 @@ public class ZippoTest2 {
 
         ;
     }
+    @Test
+    public void queryParamTest2(){
+        //  https://gorest.co.in/public/v2/users?page=1
+        given()
+                .param("page",1)
+                .log().uri()
+
+
+                .when()
+                .get("https://gorest.co.in/public/v1/users")
+
+                .then()
+                .log().body()
+                .body("meta.pagination.page",equalTo(1))
+                .statusCode(200)
+
+        ;
+    }
+
 
 
 
